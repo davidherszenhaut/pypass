@@ -19,6 +19,10 @@ python pypass.py
 
 # Arguments
 
+| Argument    | Effect                                                  |
+| --------    | ------                                                  |
+| --times, -t | Allows the user to generate multiple passwords at once. |
+
 # FAQ
 
 * Why Python?
