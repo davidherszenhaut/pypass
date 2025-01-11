@@ -19,9 +19,10 @@ python pypass.py
 
 # Arguments
 
-| Argument    | Effect                                                  |
-| --------    | ------                                                  |
-| --times, -t | Allows the user to generate multiple passwords at once. |
+| Argument        | Effect                                                             |
+| --------        | ------                                                             |
+| `--times`, `-t` | Allows the user to generate multiple passwords at once.            |
+| `--separator`   | Allows the user to choose the separator character for passphrases. |
 
 # FAQ
 
