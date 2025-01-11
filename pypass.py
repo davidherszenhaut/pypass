@@ -5,8 +5,9 @@ import argparse
 
 def set_up_parser():
     parser = argparse.ArgumentParser()
+    parser.add_argument("-l", "--length", type=int, default=6, help="Allows the user to choose the length of the password.")
     parser.add_argument("-t", "--times", type=int, default=1, help="Allows the user to generate multiple passwords at once.")
-    parser.add_argument("--separator", type=str, default=" ", help="Allows the user to choose the separator character for passphrases.")
+    parser.add_argument("-s", "--separator", type=str, default=" ", help="Allows the user to choose the separator character for passphrases.")
     return parser.parse_args()
 
 def generate_word_dict():
@@ -20,10 +21,10 @@ def generate_word_dict():
     word_list.close()
     return word_dict
 
-def generate_passwords(word_dict, times, separator):
+def generate_passwords(word_dict, length, times, separator):
     passwords = []
     for i in range(times):
-        passwords.append(generate_password(word_dict, 6, separator))
+        passwords.append(generate_password(word_dict, length, separator))
     return passwords
 
 def generate_password(word_dict, length, separator):
@@ -45,5 +46,5 @@ def print_passwords(passwords):
 if __name__ == "__main__":
     args = set_up_parser()
     word_dict = generate_word_dict()
-    passwords = generate_passwords(word_dict, args.times, args.separator)
+    passwords = generate_passwords(word_dict, args.length, args.times, args.separator)
     print_passwords(passwords)
