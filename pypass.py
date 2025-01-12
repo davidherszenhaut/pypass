@@ -8,6 +8,7 @@ def set_up_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("-k", "--kind", type=str, choices=["passphrase", "password", "pin"], default="passphrase", help="Allows the user to choose which kind of password to generate.")
     parser.add_argument("-l", "--length", type=int, default=6, help="Allows the user to choose the length of the password.")
+    parser.add_argument("-q", "--quiet", action="store_true", help="Allows the user to not print passwords to the terminal.")
     parser.add_argument("-r", "--repeat", type=int, default=1, help="Allows the user to generate multiple passwords at once.")
     parser.add_argument("-s", "--separator", type=str, default=" ", help="Allows the user to choose the separator character for passphrases.")
     return parser.parse_args()
@@ -24,7 +25,6 @@ def populate_word_dict():
     return word_dict
 
 def generate_passwords(word_dict, kind, length, repeat, separator):
-    print(kind)
     passwords = []
     for i in range(repeat):
         passwords.append(generate_password(word_dict, kind, length, separator))
@@ -55,11 +55,14 @@ def generate_index():
 def generate_pin(length):
     return "".join(secrets.choice(string.digits) for i in range(length))
 
-def print_passwords(passwords):
-    print("\n".join(passwords))
+def print_passwords(passwords, quiet):
+    if quiet:
+        print("Quiet argument was chosen. Passwords will not be printed.")
+    else:
+        print("\n".join(passwords))
 
 if __name__ == "__main__":
     args = set_up_parser()
     word_dict = populate_word_dict()
     passwords = generate_passwords(word_dict, args.kind, args.length, args.repeat, args.separator)
-    print_passwords(passwords)
+    print_passwords(passwords, args.quiet)
