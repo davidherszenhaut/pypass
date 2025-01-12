@@ -23,6 +23,7 @@ python pypass.py
 | --------            | ------                                                             |
 | `--kind`, `-k`      | Allows the user to choose which kind of password to generate.      |
 | `--length`, `-l`    | Allows the user to choose the length of the password.              |
+| `--quiet`, `-q`     | Allows the user to not print passwords to the terminal.            |
 | `--repeat`, `-r`    | Allows the user to generate multiple passwords at once.            |
 | `--separator`, `-s` | Allows the user to choose the separator character for passphrases. |
 
