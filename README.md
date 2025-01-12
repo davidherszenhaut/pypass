@@ -19,13 +19,14 @@ python pypass.py
 
 # Arguments
 
-| Argument            | Effect                                                             |
-| --------            | ------                                                             |
-| `--kind`, `-k`      | Allows the user to choose which kind of password to generate.      |
-| `--length`, `-l`    | Allows the user to choose the length of the password.              |
-| `--quiet`, `-q`     | Allows the user to not print passwords to the terminal.            |
-| `--repeat`, `-r`    | Allows the user to generate multiple passwords at once.            |
-| `--separator`, `-s` | Allows the user to choose the separator character for passphrases. |
+| Argument            | Effect                                                                                     |
+| --------            | ------                                                                                          |
+| `--character`, `-c` | Allows the user to insert a random special character into a random word in the passphrase. Only works with the `passphrase` option of the `kind` argument. |
+| `--kind`, `-k`      | Allows the user to choose which kind of password to generate. Options include `passphrase`, `password`, and `pin`.                              |
+| `--length`, `-l`    | Allows the user to choose the length of the password.                                      |
+| `--quiet`, `-q`     | Allows the user to not print the password to the terminal.                       |
+| `--repeat`, `-r`    | Allows the user to generate multiple passwords at once.                                    |
+| `--separator`, `-s` | Allows the user to choose the separator character for the passphrase. Only works with the `passphrase` option of the `kind` argument.           |
 
 # FAQ
 
