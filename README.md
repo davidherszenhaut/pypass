@@ -21,8 +21,9 @@ python pypass.py
 
 | Argument            | Effect                                                             |
 | --------            | ------                                                             |
+| `--kind`, `-k`      | Allows the user to choose which kind of password to generate.      |
 | `--length`, `-l`    | Allows the user to choose the length of the password.              |
-| `--times`, `-t`     | Allows the user to generate multiple passwords at once.            |
+| `--repeat`, `-r`    | Allows the user to generate multiple passwords at once.            |
 | `--separator`, `-s` | Allows the user to choose the separator character for passphrases. |
 
 # FAQ
