@@ -10,22 +10,33 @@ def set_up_parser():
     parser.add_argument("-c", "--character", action="store_true", help="Allows the user to insert a random special character into a random word in the passphrase.")
     parser.add_argument("-k", "--kind", type=str, choices=["passphrase", "password", "pin"], default="passphrase", help="Allows the user to choose which kind of password to generate.")
     parser.add_argument("-l", "--length", type=int, help="Allows the user to choose the length of the password.")
+    parser.add_argument("-p", "--provide", type=str, default="word_lists/eff_large_wordlist.txt", const="word_lists/eff_large_wordlist.txt", nargs="?", help="Allows the user to provide a custom word list for passphrases.")
     parser.add_argument("-q", "--quiet", action="store_true", help="Allows the user to not print the password to the terminal.")
     parser.add_argument("-r", "--repeat", type=int, default=1, help="Allows the user to generate multiple passwords at once.")
     parser.add_argument("-s", "--separator", type=str, default=" ", help="Allows the user to choose the separator character for the passphrase.")
     parser.add_argument("-w", "--write", type=str, const="passwords.txt", nargs="?", help="Allows the user to save the password to a file.")
     return parser.parse_args()
 
-def populate_word_dict():
+def populate_word_dict(provided_file):
     word_dict = {}
-    with open('word_lists/eff_large_wordlist.txt', 'r', encoding="utf-8") as word_list:
+    if provided_file:
+        validate_provided_file(provided_file)
+    with open(provided_file, "r", encoding="utf-8") as word_list:
         for line in word_list:
-            current = line.rstrip().split(',')
+            current = line.rstrip().split(",")
             index = current[0]
             word = current[1]
             word_dict[index] = word
     word_list.close()
     return word_dict
+
+def validate_provided_file(provided_file):
+    if not os.path.isfile(provided_file):
+        raise FileNotFoundError(f"The file specified by the --provide flag ({provided_file}) was not found.")
+    with open(provided_file, "r") as word_list:
+        line_count = word_list.readlines()
+        if len(line_count) != 7776:
+            raise RuntimeError(f"The file specified by the --provide flag ({provided_file}) did not have the expected number of lines. Please look at the included word list (word_lists/eff_large_wordlist.txt) as an example for word list formatting.")
 
 def get_password_length(kind, length):
     default_lengths = {
@@ -91,7 +102,7 @@ def write_passwords(passwords, write):
 
 if __name__ == "__main__":
     args = set_up_parser()
-    word_dict = populate_word_dict()
+    word_dict = populate_word_dict(args.provide)
     passwords = generate_passwords(word_dict, args.character, args.kind, get_password_length(args.kind, args.length), args.repeat, args.separator)
     print_passwords(passwords, args.quiet)
     if args.write:
