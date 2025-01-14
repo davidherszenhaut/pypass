@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 import secrets
 import string
 
@@ -12,6 +13,7 @@ def set_up_parser():
     parser.add_argument("-q", "--quiet", action="store_true", help="Allows the user to not print the password to the terminal.")
     parser.add_argument("-r", "--repeat", type=int, default=1, help="Allows the user to generate multiple passwords at once.")
     parser.add_argument("-s", "--separator", type=str, default=" ", help="Allows the user to choose the separator character for the passphrase.")
+    parser.add_argument("-w", "--write", type=str, const="passwords.txt", nargs="?", help="Allows the user to save the password to a file.")
     return parser.parse_args()
 
 def populate_word_dict():
@@ -81,8 +83,16 @@ def print_passwords(passwords, quiet):
     else:
         print("\n".join(passwords))
 
+def write_passwords(passwords, write):
+    if os.path.isfile(write):
+        os.remove(write)
+    with open(write, "w") as output_file:
+        output_file.write("\n".join(passwords))
+
 if __name__ == "__main__":
     args = set_up_parser()
     word_dict = populate_word_dict()
     passwords = generate_passwords(word_dict, args.character, args.kind, get_password_length(args.kind, args.length), args.repeat, args.separator)
     print_passwords(passwords, args.quiet)
+    if args.write:
+        write_passwords(passwords, args.write)

@@ -27,6 +27,7 @@ python pypass.py
 | `--quiet`, `-q`     | Allows the user to not print the password to the terminal.                                                                                                 | `False`
 | `--repeat`, `-r`    | Allows the user to generate multiple passwords at once.                                                                                                    | `1`
 | `--separator`, `-s` | Allows the user to choose the separator character for the passphrase. Only works with the `passphrase` option of the `kind` argument.                      | `(space)`
+| `--write`, `w`      | Allows the user to save the password to a file. The user can pass in a file name or the default `passwords.txt` will be used.                              | `False`
 
 # FAQ
 
