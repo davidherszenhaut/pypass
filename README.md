@@ -4,14 +4,16 @@ A script to generate passwords locally with Python's `secrets` module.
 
 # Instructions
 
-1. Clone this repository and go inside.
+1. Download and set up [Python](https://www.python.org/) (>= 3).
+
+2. Clone this repository and go inside.
 
 ```bash
 git clone https://github.com/davidherszenhaut/pypass.git
 cd pypass
 ```
 
-2. Run the script. Refer to the [Arguments](#arguments) section for more options.
+3. Run the script. Refer to the [Arguments](#arguments) section for more options.
 
 ```bash
 python pypass.py
