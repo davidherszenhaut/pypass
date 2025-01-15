@@ -19,6 +19,8 @@ cd pypass
 python pypass.py
 ```
 
+If you would like to run `pypass`'s unit tests, run ```python test_pypass.py``` from the same directory.
+
 # Arguments
 
 | Argument            | Help                                                                                                                                                        | Defaults
