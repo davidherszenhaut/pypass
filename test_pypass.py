@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 
+from unittest.mock import patch
+from io import StringIO
+
+import os
 import pypass
 import unittest
+
+DEFAULT_WORDLIST = "word_lists/eff_large_wordlist.txt"
+PASSWORDS = ["password1", "password2", "password3"]
+OUTPUT_FILE = "test_write_passwords.txt"
 
 class TestPypassMethods(unittest.TestCase):
 
     def test_populate_word_dict_using_default_word_list(self):
-        word_dict = pypass.populate_word_dict("word_lists/eff_large_wordlist.txt")
+        word_dict = pypass.populate_word_dict(DEFAULT_WORDLIST)
         self.assertEqual(len(word_dict), 7776, msg="Assert that the default word list has an appropriate length.")
 
     def test_populate_word_dict_using_non_existent_file(self):
@@ -19,7 +27,7 @@ class TestPypassMethods(unittest.TestCase):
 
     def test_validate_provided_file_using_valid_file(self):
         try:
-            pypass.validate_provided_file("word_lists/eff_large_wordlist.txt")
+            pypass.validate_provided_file(DEFAULT_WORDLIST)
         except Exception:
             self.fail("Valid word list file was unexpectedly not validated.")
     
@@ -64,17 +72,43 @@ class TestPypassMethods(unittest.TestCase):
     def test_generate_passphrase(self):
         pass
 
-    def test_generate_index(self):
-        pass
+    def test_generate_index_returns_appropriate_length(self):
+        index = pypass.generate_index()
+        self.assertEqual(len(index), 5)
 
-    def test_generate_pin(self):
-        pass
+    def test_generate_index_returns_appropriate_characters(self):
+        index = pypass.generate_index()
+        self.assertTrue(index.isdigit())
 
-    def test_print_passwords(self):
-        pass
+    def test_generate_pin_returns_appropriate_length(self):
+        pin = pypass.generate_pin(11)
+        self.assertEqual(len(pin), 11)
 
-    def test_write_passwords(self):
-        pass
+    def test_generate_pin_uses_appropriate_characters(self):
+        pin = pypass.generate_pin(11)
+        self.assertTrue(pin.isdigit())
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_print_passwords_with_quiet_mode(self, mock_stdout):
+        pypass.print_passwords(PASSWORDS, True)
+        assert mock_stdout.getvalue() == "Quiet argument was chosen. Passwords will not be printed.\n"
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_print_passwords_without_quiet_mode(self, mock_stdout):
+        pypass.print_passwords(PASSWORDS, False)
+        assert mock_stdout.getvalue() == "\n".join(PASSWORDS) + "\n"
+
+    def test_write_passwords_file_is_created(self):
+        pypass.write_passwords(PASSWORDS, OUTPUT_FILE)
+        self.assertEqual(os.path.isfile(OUTPUT_FILE), True)
+        os.remove(OUTPUT_FILE)
+
+    def test_write_passwords_file_has_all_passwords(self):
+        pypass.write_passwords(PASSWORDS, OUTPUT_FILE)
+        with open(OUTPUT_FILE, "r") as written_passwords:
+            line_count = written_passwords.readlines()
+            self.assertEqual(len(line_count), len(PASSWORDS))
+        os.remove(OUTPUT_FILE)
 
 if __name__ == "__main__":
     unittest.main()
