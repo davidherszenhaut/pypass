@@ -23,7 +23,7 @@ If you would like to run `pypass`'s unit tests, run ```python test_pypass.py``` 
 
 # Arguments
 
-| Argument            | Help                                                                                                                                                        | Defaults
+| Argument            | Help                                                                                                                                                        | Default
 | --------            | ----                                                                                                                                                        | --------
 | `--character`, `-c` | Allows the user to insert a random special character into a random word in the passphrase. Only works with the `passphrase` option of the `kind` argument.  | `False`
 | `--kind`, `-k`      | Allows the user to choose which kind of password to generate. Options include `passphrase`, `password`, and `pin`.                                          | `passphrase`
