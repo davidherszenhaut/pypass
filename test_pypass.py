@@ -63,14 +63,75 @@ class TestPypassMethods(unittest.TestCase):
         length = pypass.get_password_length("pin", 33)
         self.assertEqual(length, 33)
 
-    def test_generate_passwords(self):
-        pass
+    def test_generate_passwords_repeat_count(self):
+        word_dict = None
+        character = None
+        kind = "password"
+        length = pypass.get_password_length(kind, 17)
+        repeat = 17
+        separator = None
+        passwords = pypass.generate_passwords(word_dict, character, kind, length, repeat, separator)
+        self.assertEqual(repeat, len(passwords))
 
-    def test_generate_password(self):
-        pass
+    def test_generate_password_default_length(self):
+        word_dict = None
+        character = None
+        kind = "password"
+        length = pypass.get_password_length(kind, None)
+        separator = None
+        password = pypass.generate_password(word_dict, character, kind, length, separator)
+        self.assertEqual(len(password), length)
+        self.assertTrue(password.isalnum())
 
-    def test_generate_passphrase(self):
-        pass
+    def test_generate_password_user_defined_length(self):
+        word_dict = None
+        character = None
+        kind = "password"
+        length = pypass.get_password_length(kind, 17)
+        separator = None
+        password = pypass.generate_password(word_dict, character, kind, length, separator)
+        self.assertEqual(len(password), length)
+        self.assertTrue(password.isalnum())
+
+    def test_generate_passphrase_default_word_list_no_special_character_default_length_default_separator(self):
+        word_dict = pypass.populate_word_dict(DEFAULT_WORDLIST)
+        character = False
+        kind = "passphrase"
+        length = pypass.get_password_length(kind, None)
+        separator = " "
+        passphrase = pypass.generate_passphrase(word_dict, character, length, separator)
+        self.assertEqual(length - 1, passphrase.count(separator))
+        self.assertTrue(all(x.isalpha() or x.isspace() or x == "-" for x in passphrase))
+
+    def test_generate_passphrase_default_word_list_with_special_character_default_length_default_separator(self):
+        word_dict = pypass.populate_word_dict(DEFAULT_WORDLIST)
+        character = True
+        kind = "passphrase"
+        length = pypass.get_password_length(kind, None)
+        separator = " "
+        passphrase = pypass.generate_passphrase(word_dict, character, length, separator)
+        self.assertEqual(length - 1, passphrase.count(separator))
+        self.assertFalse(all(x.isalpha() or x.isspace() for x in passphrase))
+
+    def test_generate_passphrase_default_word_list_no_special_character_user_defined_length_default_separator(self):
+        word_dict = pypass.populate_word_dict(DEFAULT_WORDLIST)
+        character = False
+        kind = "passphrase"
+        length = pypass.get_password_length(kind, 17)
+        separator = " "
+        passphrase = pypass.generate_passphrase(word_dict, character, length, separator)
+        self.assertEqual(length - 1, passphrase.count(separator))
+        self.assertTrue(all(x.isalpha() or x.isspace() or x == "-" for x in passphrase))
+
+    def test_generate_passphrase_default_word_list_no_special_character_default_length_user_defined_separator(self):
+        word_dict = pypass.populate_word_dict(DEFAULT_WORDLIST)
+        character = False
+        kind = "passphrase"
+        length = pypass.get_password_length(kind, None)
+        separator = "!"
+        passphrase = pypass.generate_passphrase(word_dict, character, length, separator)
+        self.assertEqual(length - 1, passphrase.count(separator))
+        self.assertFalse(all(x.isalpha() or x.isspace() for x in passphrase))
 
     def test_generate_index_returns_appropriate_length(self):
         index = pypass.generate_index()
